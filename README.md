@@ -1,2 +1,2 @@
 # api.criptomoedas
-Este é uma api de criptomoedas de exemplo.
+Este é um exemplo de requisição JS Fetch a uma API de criptomoedas.
