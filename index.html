@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CoinMarketCap</title>
+        <meta charset="utf-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div id="coins"></div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            
+            // chave da api
+            var apikey = {
+                key : '074b728b-6fe9-4944-8aa8-ceac8f23fce9'
+            };
+
+            // requisicao GET Fetch
+            fetch('https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY=' + apikey.key)
+
+                // recepiciona a resposta da requisicao
+                .then((response) => {
+                    
+                    // ocorreu algum erro?
+                    if(!response.ok) 
+                        throw new Error('Erro ao executar a requisição, status ' + response.status);
+
+                    // retorna a resposta no formato json
+                    return response.json();
+                })
+
+                // exibe os dados
+                .then((api) => {
+
+                    // variavel que armazena o conteudo da resposta ja em formato de front
+                    var content = "";
+
+                    // exibe os 10 primeiros dados
+                    for(let i = 0; i<10; i++){
+
+                        content = content + 
+                        `
+                            <div class="col-sm-4">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h5 class="mt-2">${api.data[i].name}</h5>
+                                        <p>
+                                            ${api.data[i].symbol}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                    }
+
+                    // insere no documento
+                    document.getElementById("coins").innerHTML = content;
+
+                })
+
+                // captura erros
+                .catch((error) => {
+                    console.error(error.message);
+                });
+
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    </body>
+</html>
